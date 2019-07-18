@@ -1,0 +1,30 @@
+- name: Install printer
+  become: yes
+  pacman: name=cups
+
+- name: Install printer drivers
+  become: yes
+  pacman:
+    name:
+      - foomatic-db-engine
+      - foomatic-db
+      - foomatic-db-ppds
+      - python-dbus
+      - python-gobject
+
+- name: Enable printer
+  become: yes
+  systemd: name=org.cups.cupsd enabled=yes state=started
+
+- name: Install printer discover
+  become: yes
+  pacman: name=avahi
+
+  - name: Install printer discover driver
+  become: yes
+  pacman: name=nss-mdns
+
+  - name: Enable printer
+  become: yes
+  systemd: name=avahi-daemon enabled=yes state=started
+

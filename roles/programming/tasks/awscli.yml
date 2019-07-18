@@ -1,0 +1,4 @@
+- name: Install AWS CLI
+  become: yes
+  pacman: name=aws-cli
+

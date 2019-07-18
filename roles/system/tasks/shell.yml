@@ -1,0 +1,3 @@
+- name: Install terminal
+  become: yes
+  pacman: name=deepin-terminal

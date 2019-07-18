@@ -1,0 +1,7 @@
+- include: docker.yml
+- include: go.yml
+- include: java.yml
+- include: terraform.yml
+- include: node.yml
+- include: awscli.yml
+- include: postman.yml

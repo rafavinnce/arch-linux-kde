@@ -1,0 +1,15 @@
+- name: Install core packages
+  become: yes
+  pacman:
+    name:
+      - git
+      - openssh
+      - openvpn
+      - curl
+      - wget
+      - jq
+      - bind-tools
+      - tree
+      - htop
+      - zip
+      - unzip

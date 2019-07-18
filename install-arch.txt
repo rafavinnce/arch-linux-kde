@@ -1,0 +1,100 @@
+## Create partitions
+cfdisk /dev/sda
+
+## Run the formatter on your filesystem partition
+mkfs.ext4 /dev/sdaX
+
+## Format the efi partition in efi systems
+mkfs.fat -F32 /dev/sdaX
+
+## Make a swap file in the swap partition
+mkswap /dev/sdaX
+
+## Activate the swap of the swap partition
+swapon /dev/sdaX
+
+## Connect on wifi
+wifi-menu <network_name>
+
+## Mount the root on /mnt
+mount /dev/sdaX /mnt
+
+## We need to use pacman to put the base system in our mount point
+pacstrap /mnt base base-devel
+
+## Enter in the mounted driver
+arch-chroot /mnt
+
+## Create EFI directory
+mkdir /boot/efi
+
+## Exit from chroot environment
+exit
+
+## Mount efi patition in an efi directory
+mount /dev/sdaX /mnt/boot/efi
+
+## To set things to configurate the system before restart we are going to enter in the system partition
+arch-chroot /mnt
+
+## Create a link between the timezone file and localtime file
+ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+
+## Set the hardware clock
+hwclock --systohc
+
+## Set Locations - find locale.gen file and unncoment your language
+nano /etc/locale.gen
+
+## Create the local file
+locale-gen
+
+## Set keyboard - find vconsole.conf file and add
+nano /etc/vconsole.conf
+KEYMAP=br-abnt2
+
+## Choose your hostname
+echo <your_hostname> > /etc/hostname
+
+## Install necessary packages for wifi connection
+pacman -S iw dialog wpa_supplicant
+
+## Create a password to the root user
+passwd
+
+## Allow wheel group execute any commands - execute and unncoment wheel line
+EDITOR=vim visudo
+
+## Create a new user
+useradd -m -g users -G wheel,storage,power,video,network -s /bin/bash <your_username>
+
+## Set a password to the new user
+passwd <your_username>
+
+## Allow multilib - find pacman.conf and unncoment multilib
+nano /etc/pacman.conf
+
+## Update system
+pacman -Syu
+
+## Install the bootloader (grub) and efi manager
+pacman -S efibootmgr os-prober grub-bios
+
+## Configure grub to use the current hard drive
+grub-install /dev/sda
+
+## Generate an init file which grub uses to load linux
+mkinitcpio -p linux
+
+## Create the grub configuration file
+grub-mkconfig -o /boot/grub/grub.cfg
+
+## Disconnect from chroot session
+exit
+
+## Generate fstab file based on the hard drive - informations about the partitions in the hard drive
+genfstab /mnt >> /mnt/etc/fstab
+
+## Unmount the hard drive but unmount everything mounted on top of it, as the efi directory
+umount /mnt/boot/efi
+umount /mnt

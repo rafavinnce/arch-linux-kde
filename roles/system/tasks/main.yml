@@ -1,0 +1,14 @@
+- include: pacman.yml
+- include: modprobe.yml
+- include: core.yml
+- include: shell.yml
+- include: keyboard.yml
+- include: audio.yml
+- include: audio-player.yml
+- include: video-player.yml
+- include: image-viewer.yml
+- include: pdf-reader.yml
+- include: fonts.yml
+- include: file-manager.yml
+- include: playerctl.yml
+- include: window-manager.yml

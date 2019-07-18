@@ -1,0 +1,3 @@
+- name: Install file manager
+  become: yes
+  pacman: name=dolphin

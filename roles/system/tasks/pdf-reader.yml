@@ -1,0 +1,7 @@
+- name: Install Zathura and PDF backend
+  become: yes
+  pacman:
+    name:
+      - zathura
+      - zathura-pdf-mupdf
+

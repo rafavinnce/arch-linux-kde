@@ -1,0 +1,22 @@
+## Add nvidia in kernel
+nvidia modprobe
+
+## Create xorg.conf
+X -configure
+
+## Edit /root/xorg.conf.new and follow this steps
+
+ - Remove line "Screen 1" from ServerLayout Section
+ - Add line "Load "modesetting"" in Module Section
+ - Add line "Option "AllowEmptyInitialConfiguration"" in Device Section (nvidia)
+ - Remove Device Section Intel
+ - Keep only one Screen Section with Screen0 and Card1
+
+## Copy xorg.conf.new
+cp /root/xorg.conf.new /etc/X11/xorg.conf
+
+## Create ~/.xinitrc
+xrandr --setprovideroutputsource modesetting NVIDIA-0
+xrandr --auto
+exec startkde
+pulseaudio -D

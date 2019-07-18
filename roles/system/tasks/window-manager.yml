@@ -1,0 +1,30 @@
+- name: Install Xorg and tools
+  become: yes
+  pacman:
+    name:
+      - xorg-server
+      - xorg-xinit
+      - xorg-xrandr
+
+- name: Install Nvidia
+  become: yes
+  pacman: 
+    name:
+      - nvidia
+      - nvidia-settings
+
+- name: Install Intel
+  become: yes
+  pacman: name=xf86-video-intel
+
+- name: Install Plasma KDE
+  become: yes
+  pacman: name=plasma-desktop
+
+- name: Install KDE tools
+  become: yes
+  pacman:
+    name:
+      - plasma-pa
+      - powerdevil
+      - kscreen

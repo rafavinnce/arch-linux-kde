@@ -1,0 +1,17 @@
+## Edit /etc/nsswitch.conf and add this command in 'host' line before 'resolve'
+mdns_minimal [NOTFOUND=return]
+
+## Restart cups service
+sudo systemctl restart org.cups.cupsd.service
+
+## Use avahi for to find printer and get IP
+avahi-discover
+
+## Access in browser http://127.0.0.1:631 and follow this steps
+    - Go to Administration (login with your root user)
+    - Add printer
+    - Select Internet Printing Protocol
+    - Add printer IP (from avahi-discover)
+    - Select printer model
+    - Select your printer
+    - Add name to your printer

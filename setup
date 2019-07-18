@@ -1,0 +1,36 @@
+#!/bin/bash
+if test ! "$(which python)"; then
+  echo "Please install python first"
+  echo "# pacman -S python"
+  exit 1
+fi
+
+if test ! "$(which yay)"; then
+  echo "Please install yay first"
+  cat <<-EOF
+			# git clone https://aur.archlinux.org/yay.git
+			# cd yay
+			# makepkg -si
+			EOF
+  exit 1
+fi
+
+if test ! "$(which ansible)"; then
+  echo "Please install ansible first"
+  echo "# pacman -S ansible"
+  exit 1
+fi
+
+if test ! -f /usr/share/ansible/plugins/modules/yay; then
+  echo "Please install ansible-yay first"
+  cat <<-EOF
+			# curl -fLo /usr/share/ansible/plugins/modules/yay --create-dirs \
+					https://raw.githubusercontent.com/mnussbaum/ansible-yay/master/yay
+			# chmod -R 755 /usr/share/ansible/plugins
+			EOF
+  exit 1
+fi
+
+python --version
+ansible --version
+ansible-playbook -K main.yml

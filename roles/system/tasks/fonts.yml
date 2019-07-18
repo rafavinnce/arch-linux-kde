@@ -1,0 +1,10 @@
+- name: Install pacman fonts
+  become: yes
+  pacman:
+    name:
+      - ttf-dejavu
+      - ttf-fira-mono
+      - noto-fonts
+      - noto-fonts-emoji
+      - noto-fonts-extra
+      - adobe-source-code-pro-fonts
